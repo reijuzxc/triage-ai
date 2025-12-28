@@ -153,3 +153,12 @@ input, textarea {
   border: 1px solid #7dd3fc;
 }
 
+.resolution-box {
+  background-color: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  color: #475569;
+}

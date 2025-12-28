@@ -89,6 +89,10 @@ function App() {
               <div key={ticket.id} className="ticket-item">
                 <h3>{ticket.title}</h3>
                 <p>{ticket.description}</p>
+                {/* Suggested Resolution Box */}
+                <div className="resolution-box">
+                      <strong>🤖 AI Suggestion:</strong> {ticket.resolution || "No suggestion available."}
+                   </div>
                 <div className="ticket-meta">
                   {/* Priority Badge */}
                   <span className={`badge priority-${ticket.priority?.toLowerCase()}`}>

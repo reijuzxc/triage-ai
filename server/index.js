@@ -3,10 +3,13 @@ const cors = require('cors');
 require('dotenv').config();
 const pool = require('./db');
 
+// AI Triage Logic
 const analyzeTicket = (description) => {
     const text = description.toLowerCase();
     
     let priority = 'Low'; 
+    let category = 'General';
+    let resolution = 'Investigate issue details.';
     
     if (text.includes('fire') || text.includes('crash') || text.includes('urgent')) {
         priority = 'High';
@@ -14,16 +17,21 @@ const analyzeTicket = (description) => {
         priority = 'Medium';
     }
 
-    let category = 'General';
     if (text.includes('login') || text.includes('password')) {
         category = 'Access';
+        resolution = 'Reset password via Admin Panel and verify email.';
     } else if (text.includes('payment') || text.includes('card')) {
         category = 'Billing';
+        resolution = 'Check Stripe dashboard for failed transactions.';
     } else if (text.includes('screen') || text.includes('mouse') || text.includes('keyboard')) {
         category = 'Hardware';
+        resolution = 'Check cabling and replace peripheral if needed.';
+    } else if (text.includes('fire') || text.includes('smoke')) {
+        category = 'Safety';
+        resolution = 'Evacuate immediately and call emergency services.';
     }
 
-    return { priority, category };
+    return { priority, category, resolution };
 };
 
 
@@ -58,8 +66,8 @@ app.post('/tickets', async (req, res) => {
         const analysis = analyzeTicket(description);
 
         const newTicket = await pool.query(
-            "INSERT INTO tickets (title, description, priority, category) VALUES ($1, $2, $3, $4) RETURNING *",
-            [title, description, analysis.priority, analysis.category]
+            "INSERT INTO tickets (title, description, priority, category, resolution) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+[title, description, analysis.priority, analysis.category, analysis.resolution]
         );
 
         console.log("Analyzed Ticket:", newTicket.rows[0]);
