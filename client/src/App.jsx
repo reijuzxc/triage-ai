@@ -8,6 +8,7 @@ function App() {
   const [status, setStatus] = useState(""); 
   const [tickets, setTickets] = useState([]); 
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   useEffect(() => {
     fetchTickets();
@@ -15,7 +16,7 @@ function App() {
 
   const fetchTickets = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/tickets');
+      const response = await axios.get(`${API_URL}/tickets`);
       setTickets(response.data);
     } catch (error) {
       console.error("Error fetching tickets:", error);
@@ -27,7 +28,7 @@ function App() {
     setStatus("Sending...");
 
     try {
-      await axios.post('http://localhost:5000/tickets', {
+      await axios.post(`${API_URL}/tickets`, {
         title: title,
         description: description
       });
