@@ -41,6 +41,9 @@ app.use(cors());
 app.use(express.json());
 
 // --- ROUTES ---
+app.get('/', (req, res) => {
+    res.json({ message: "TriageAI API is running", status: "OK"});
+});
 app.get('/tickets', async (req, res) => {
     try {
         
