@@ -1,0 +1,10 @@
+# Ignore Dependencies
+node_modules/
+/server/node_modules/
+
+# Ignore Environment Variables (Passwords/Keys)
+.env
+/server/.env
+
+# Ignore System Files
+.DS_Store
